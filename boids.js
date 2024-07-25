@@ -4,6 +4,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+let mouse = {
+    x: canvas.width / 2,
+    y: canvas.height / 2
+};
+
 class Boid {
     constructor() {
         this.position = {
@@ -11,15 +16,15 @@ class Boid {
             y: Math.random() * canvas.height
         };
         this.velocity = {
-            x: (Math.random() - 0.5) * 4, // Increased initial speed
-            y: (Math.random() - 0.5) * 4  // Increased initial speed
+            x: (Math.random() - 0.5) * 4,
+            y: (Math.random() - 0.5) * 4
         };
         this.acceleration = {
             x: 0,
             y: 0
         };
-        this.maxSpeed = 4; // Increased max speed
-        this.maxForce = 0.1; // Increased max force
+        this.maxSpeed = 4;
+        this.maxForce = 0.1;
     }
 
     edges() {
@@ -118,10 +123,31 @@ class Boid {
         return steering;
     }
 
+    attract(mouse) {
+        let perceptionRadius = 100;
+        let steering = { x: 0, y: 0 };
+        let d = Math.hypot(this.position.x - mouse.x, this.position.y - mouse.y);
+
+        if (d < perceptionRadius) {
+            steering.x = mouse.x - this.position.x;
+            steering.y = mouse.y - this.position.y;
+            let mag = Math.hypot(steering.x, steering.y);
+            if (mag > 0) {
+                steering.x = (steering.x / mag) * this.maxSpeed - this.velocity.x;
+                steering.y = (steering.y / mag) * this.maxSpeed - this.velocity.y;
+            }
+            steering.x *= this.maxForce;
+            steering.y *= this.maxForce;
+        }
+
+        return steering;
+    }
+
     flock(boids) {
         let alignment = this.align(boids);
         let cohesion = this.cohesion(boids);
         let separation = this.separation(boids);
+        let attraction = this.attract(mouse);
 
         this.acceleration.x += alignment.x;
         this.acceleration.y += alignment.y;
@@ -129,6 +155,8 @@ class Boid {
         this.acceleration.y += cohesion.y;
         this.acceleration.x += separation.x;
         this.acceleration.y += separation.y;
+        this.acceleration.x += attraction.x;
+        this.acceleration.y += attraction.y;
     }
 
     update() {
@@ -155,9 +183,14 @@ class Boid {
 
 const flock = [];
 
-for (let i = 0; i < 200; i++) { // Increased number of boids
+for (let i = 0; i < 200; i++) {
     flock.push(new Boid());
 }
+
+canvas.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+});
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
