@@ -11,15 +11,15 @@ class Boid {
             y: Math.random() * canvas.height
         };
         this.velocity = {
-            x: (Math.random() - 0.5) * 2,
-            y: (Math.random() - 0.5) * 2
+            x: (Math.random() - 0.5) * 4, // Increased initial speed
+            y: (Math.random() - 0.5) * 4  // Increased initial speed
         };
         this.acceleration = {
             x: 0,
             y: 0
         };
-        this.maxSpeed = 2;
-        this.maxForce = 0.05;
+        this.maxSpeed = 4; // Increased max speed
+        this.maxForce = 0.1; // Increased max force
     }
 
     edges() {
@@ -31,7 +31,7 @@ class Boid {
 
     align(boids) {
         let perceptionRadius = 50;
-        let steering = {x: 0, y: 0};
+        let steering = { x: 0, y: 0 };
         let total = 0;
 
         for (let other of boids) {
@@ -58,7 +58,7 @@ class Boid {
 
     cohesion(boids) {
         let perceptionRadius = 50;
-        let steering = {x: 0, y: 0};
+        let steering = { x: 0, y: 0 };
         let total = 0;
 
         for (let other of boids) {
@@ -87,13 +87,13 @@ class Boid {
 
     separation(boids) {
         let perceptionRadius = 24;
-        let steering = {x: 0, y: 0};
+        let steering = { x: 0, y: 0 };
         let total = 0;
 
         for (let other of boids) {
             let d = Math.hypot(this.position.x - other.position.x, this.position.y - other.position.y);
             if (other !== this && d < perceptionRadius) {
-                let diff = {x: this.position.x - other.position.x, y: this.position.y - other.position.y};
+                let diff = { x: this.position.x - other.position.x, y: this.position.y - other.position.y };
                 let mag = Math.hypot(diff.x, diff.y);
                 if (mag > 0) {
                     diff.x /= mag;
@@ -155,7 +155,7 @@ class Boid {
 
 const flock = [];
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 200; i++) { // Increased number of boids
     flock.push(new Boid());
 }
 
