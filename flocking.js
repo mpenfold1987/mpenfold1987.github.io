@@ -14,13 +14,16 @@ class Bird {
         let geometry = new THREE.ConeGeometry(0.1, 0.3, 3);
         let material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
         this.mesh = new THREE.Mesh(geometry, material);
+        
+        // Random starting position
+        this.mesh.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
+
         this.velocity = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
         scene.add(this.mesh);
     }
 
     update(birds) {
         // Flocking behavior logic here
-        // Placeholder for alignment, cohesion, and separation
         let alignment = this.align(birds);
         let cohesion = this.cohere(birds);
         let separation = this.separate(birds);
@@ -31,7 +34,6 @@ class Bird {
     }
 
     align(birds) {
-        // Calculate average velocity of nearby birds
         let avgVelocity = new THREE.Vector3();
         let count = 0;
         for (let bird of birds) {
@@ -43,11 +45,10 @@ class Bird {
         if (count > 0) {
             avgVelocity.divideScalar(count).normalize();
         }
-        return avgVelocity.multiplyScalar(0.1);
+        return avgVelocity.multiplyScalar(0.05);  // Adjusted force factor
     }
 
     cohere(birds) {
-        // Calculate average position of nearby birds
         let avgPosition = new THREE.Vector3();
         let count = 0;
         for (let bird of birds) {
@@ -59,11 +60,10 @@ class Bird {
         if (count > 0) {
             avgPosition.divideScalar(count).sub(this.mesh.position).normalize();
         }
-        return avgPosition.multiplyScalar(0.1);
+        return avgPosition.multiplyScalar(0.05);  // Adjusted force factor
     }
 
     separate(birds) {
-        // Calculate separation force
         let separation = new THREE.Vector3();
         for (let bird of birds) {
             if (bird !== this) {
@@ -73,7 +73,7 @@ class Bird {
                 }
             }
         }
-        return separation.multiplyScalar(0.1);
+        return separation.multiplyScalar(0.05);  // Adjusted force factor
     }
 }
 
@@ -83,7 +83,7 @@ for (let i = 0; i < 50; i++) {
     flock.push(new Bird());
 }
 
-camera.position.z = 5;
+camera.position.z = 10;  // Move camera back to see the flock
 
 // Animation loop
 function animate() {
