@@ -104,8 +104,8 @@ class Boid {
                     diff.x /= mag;
                     diff.y /= mag;
                 }
-                steering.x += diff.x;
-                steering.y += diff.y;
+                steering.x += diff.x / d; // Stronger repulsion
+                steering.y += diff.y / d; // Stronger repulsion
                 total++;
             }
         }
@@ -118,6 +118,8 @@ class Boid {
                 steering.x = (steering.x / mag) * this.maxSpeed - this.velocity.x;
                 steering.y = (steering.y / mag) * this.maxSpeed - this.velocity.y;
             }
+            steering.x *= this.maxForce;
+            steering.y *= this.maxForce;
         }
 
         return steering;
