@@ -24,7 +24,7 @@ class Boid {
             y: 0
         };
         this.maxSpeed = 4;
-        this.maxForce = 0.1;
+        this.maxForce = 0.2; // Increased max force for stronger separation
     }
 
     edges() {
@@ -85,6 +85,8 @@ class Boid {
                 steering.x = (steering.x / mag) * this.maxSpeed - this.velocity.x;
                 steering.y = (steering.y / mag) * this.maxSpeed - this.velocity.y;
             }
+            steering.x *= 0.05; // Reduced cohesion force
+            steering.y *= 0.05; // Reduced cohesion force
         }
 
         return steering;
