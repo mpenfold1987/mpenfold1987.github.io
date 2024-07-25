@@ -8,7 +8,13 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-console.log("Initializing birds...");
+// Add a ground plane
+let planeGeometry = new THREE.PlaneGeometry(100, 100);
+let planeMaterial = new THREE.ShadowMaterial({ opacity: 0.2 });
+let groundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+groundPlane.rotation.x = -Math.PI / 2;
+groundPlane.position.y = -5;
+scene.add(groundPlane);
 
 // Bird class
 class Bird {
@@ -21,9 +27,8 @@ class Bird {
         this.mesh.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
         this.mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
 
-        console.log(`Bird created at position (${this.mesh.position.x}, ${this.mesh.position.y}, ${this.mesh.position.z})`);
-
-        this.velocity = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
+        // Slower velocity
+        this.velocity = new THREE.Vector3(Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1);
         scene.add(this.mesh);
     }
 
@@ -32,8 +37,16 @@ class Bird {
         let cohesion = this.cohere(birds);
         let separation = this.separate(birds);
 
-        this.velocity.add(alignment).add(cohesion).add(separation).normalize();
+        this.velocity.add(alignment).add(cohesion).add(separation).clampLength(0, 0.2);
         this.mesh.position.add(this.velocity);
+
+        // Boundary conditions
+        if (this.mesh.position.x > 5) this.mesh.position.x = -5;
+        if (this.mesh.position.x < -5) this.mesh.position.x = 5;
+        if (this.mesh.position.y > 5) this.mesh.position.y = -5;
+        if (this.mesh.position.y < -5) this.mesh.position.y = 5;
+        if (this.mesh.position.z > 5) this.mesh.position.z = -5;
+        if (this.mesh.position.z < -5) this.mesh.position.z = 5;
     }
 
     align(birds) {
@@ -48,7 +61,7 @@ class Bird {
         if (count > 0) {
             avgVelocity.divideScalar(count).normalize();
         }
-        return avgVelocity.multiplyScalar(0.05);
+        return avgVelocity.multiplyScalar(0.01);  // Adjusted force factor
     }
 
     cohere(birds) {
@@ -63,7 +76,7 @@ class Bird {
         if (count > 0) {
             avgPosition.divideScalar(count).sub(this.mesh.position).normalize();
         }
-        return avgPosition.multiplyScalar(0.05);
+        return avgPosition.multiplyScalar(0.01);  // Adjusted force factor
     }
 
     separate(birds) {
@@ -76,7 +89,7 @@ class Bird {
                 }
             }
         }
-        return separation.multiplyScalar(0.05);
+        return separation.multiplyScalar(0.01);  // Adjusted force factor
     }
 }
 
@@ -100,5 +113,3 @@ function animate() {
 }
 
 animate();
-
-console.log("Animation started...");
