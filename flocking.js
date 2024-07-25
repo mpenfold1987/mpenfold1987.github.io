@@ -8,6 +8,8 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+console.log("Initializing birds...");
+
 // Bird class
 class Bird {
     constructor() {
@@ -18,6 +20,8 @@ class Bird {
         // Random starting position within a cube of side 10
         this.mesh.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
         this.mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+
+        console.log(`Bird created at position (${this.mesh.position.x}, ${this.mesh.position.y}, ${this.mesh.position.z})`);
 
         this.velocity = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
         scene.add(this.mesh);
@@ -96,3 +100,5 @@ function animate() {
 }
 
 animate();
+
+console.log("Animation started...");
