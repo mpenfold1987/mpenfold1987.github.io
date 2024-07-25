@@ -15,20 +15,19 @@ class Bird {
         let material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
         this.mesh = new THREE.Mesh(geometry, material);
         
-        // Random starting position
+        // Random starting position within a cube of side 10
         this.mesh.position.set(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5);
+        this.mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
 
-        this.velocity = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
+        this.velocity = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1).normalize();
         scene.add(this.mesh);
     }
 
     update(birds) {
-        // Flocking behavior logic here
         let alignment = this.align(birds);
         let cohesion = this.cohere(birds);
         let separation = this.separate(birds);
 
-        // Update velocity
         this.velocity.add(alignment).add(cohesion).add(separation).normalize();
         this.mesh.position.add(this.velocity);
     }
@@ -45,7 +44,7 @@ class Bird {
         if (count > 0) {
             avgVelocity.divideScalar(count).normalize();
         }
-        return avgVelocity.multiplyScalar(0.05);  // Adjusted force factor
+        return avgVelocity.multiplyScalar(0.05);
     }
 
     cohere(birds) {
@@ -60,7 +59,7 @@ class Bird {
         if (count > 0) {
             avgPosition.divideScalar(count).sub(this.mesh.position).normalize();
         }
-        return avgPosition.multiplyScalar(0.05);  // Adjusted force factor
+        return avgPosition.multiplyScalar(0.05);
     }
 
     separate(birds) {
@@ -73,7 +72,7 @@ class Bird {
                 }
             }
         }
-        return separation.multiplyScalar(0.05);  // Adjusted force factor
+        return separation.multiplyScalar(0.05);
     }
 }
 
@@ -83,7 +82,7 @@ for (let i = 0; i < 50; i++) {
     flock.push(new Bird());
 }
 
-camera.position.z = 10;  // Move camera back to see the flock
+camera.position.z = 10;
 
 // Animation loop
 function animate() {
