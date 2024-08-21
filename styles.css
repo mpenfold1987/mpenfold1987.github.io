@@ -9,7 +9,7 @@ body {
 .galactic-intro {
     text-align: center;
     margin-top: 10%;
-    animation: fadeOut 5s ease-in 10s forwards; /* Added delay and ensured fade stays */
+    animation: fadeOut 3s ease-in 3s forwards; /* Faster fade-out */
 }
 
 .intro-text {
