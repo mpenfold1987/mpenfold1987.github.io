@@ -31,8 +31,9 @@ body {
     left: 10%; /* Adjusted centering */
     transform-origin: 50% 100%;
     animation: crawl 50s linear infinite;
-    font-size: 2em; /* Increased font size for easier reading */
+    font-size: 3em; /* Increased font size for easier reading */
     line-height: 1.5; /* Added line height for better spacing */
+    text-align: center;
 }
 
 .title {
