@@ -27,5 +27,33 @@
             </p>
         </div>
     </div>
+
+    <script>
+        // Function to handle text-to-speech
+        function playTextToSpeech(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'en-US'; // Set language
+            speech.pitch = 1; // Set pitch (0 to 2)
+            speech.rate = 0.9; // Set rate of speech (0.1 to 10)
+            window.speechSynthesis.speak(speech);
+        }
+
+        // Wait for the DOM content to load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select the text to be spoken
+            const crawlText = `
+                In a distant galaxy, many light-years away...
+                Chapter I: The Beginning.
+                It is a time of great unrest. Freedom fighters, emerging from hidden locations,
+                have achieved their first triumph against a powerful oppressive regime.
+                During the confrontation, courageous agents succeeded in capturing vital information
+                about the regime's ultimate weapon, a colossal space fortress with unmatched destructive capability.
+                Pursued by the regime's sinister agents, the freedom fighters race to deliver the plans that can bring an end to the tyranny
+                and restore peace to the galaxy...
+            `;
+            // Trigger text-to-speech
+            playTextToSpeech(crawlText);
+        });
+    </script>
 </body>
 </html>
