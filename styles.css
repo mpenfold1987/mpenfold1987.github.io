@@ -9,7 +9,7 @@ body {
 .galactic-intro {
     text-align: center;
     margin-top: 10%;
-    animation: fadeOut 5s forwards;
+    animation: fadeOut 5s ease-in 10s forwards; /* Added delay and ensured fade stays */
 }
 
 .intro-text {
@@ -30,7 +30,7 @@ body {
     width: 80%;
     left: 10%;
     transform-origin: 50% 100%;
-    animation: crawl 60s linear infinite; /* Set animation to loop infinitely */
+    animation: crawl 60s linear infinite;
     font-size: 2em;
     line-height: 1.5;
 }
@@ -50,7 +50,7 @@ body {
         transform: rotateX(20deg) translateZ(0);
     }
     100% {
-        top: -1000%; /* Ensure the text disappears well off-screen before looping */
+        top: -1000%;
         transform: rotateX(25deg) translateZ(-2000px);
     }
 }
@@ -59,4 +59,7 @@ body {
     0% {
         opacity: 1;
     }
-    100%
+    100% {
+        opacity: 0;
+    }
+}
