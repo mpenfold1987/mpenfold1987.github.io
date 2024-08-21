@@ -8,12 +8,12 @@ body {
 
 .galactic-intro {
     text-align: center;
-    margin-top: 20%;
+    margin-top: 10%; /* Adjusted margin for better visibility */
     animation: fadeOut 5s forwards;
 }
 
 .intro-text {
-    font-size: 2em;
+    font-size: 3em; /* Increased font size for better readability */
     text-transform: uppercase;
 }
 
@@ -27,14 +27,16 @@ body {
 .crawl {
     position: absolute;
     top: 100%;
-    width: 90%;
-    left: 5%;
+    width: 80%; /* Slightly narrower for better readability */
+    left: 10%; /* Adjusted centering */
     transform-origin: 50% 100%;
     animation: crawl 50s linear infinite;
+    font-size: 2em; /* Increased font size for easier reading */
+    line-height: 1.5; /* Added line height for better spacing */
 }
 
 .title {
-    font-size: 200%;
+    font-size: 2.5em; /* Increased title font size */
     text-align: center;
 }
 
@@ -48,7 +50,7 @@ body {
         transform: rotateX(20deg) translateZ(0);
     }
     100% {
-        top: -800%; /* Increased this to make the text disappear further up */
+        top: -800%; /* Text disappears further up */
         transform: rotateX(25deg) translateZ(-2000px);
     }
 }
